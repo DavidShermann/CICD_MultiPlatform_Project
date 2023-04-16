@@ -22,10 +22,11 @@ pipeline {
 		stage("Test"){
 			steps{	
 				dir('/home/ubuntu/jenkins/workspace/MixProjectDavid'){
-			sh '''
-			//	docker exec shop python3 -m unittest appTest.py
-				echo 'testing' 
-			'''
+			// sh '''
+			//     docker exec shop python3 -m unittest appTest.py
+			// 	echo 'testing' 
+			// '''
+				sh 'echo testing'
 				}
 			}
 		}
