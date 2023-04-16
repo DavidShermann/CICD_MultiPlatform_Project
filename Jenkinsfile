@@ -16,7 +16,7 @@ pipeline {
 //					docker build . -t shopify --rm
 //					docker run -d --name shop -p 5000:5000 shopify
 //				'''
-					sh 'echo build'
+					sh 'echo build 1'
 			//	}
 			}
 		}
