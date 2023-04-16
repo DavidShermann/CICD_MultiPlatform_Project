@@ -21,9 +21,11 @@ pipeline {
 		}
 		stage("Test"){
 			steps{	
+				dir('/home/ubuntu/jenkins/workspace/MixProjectDavid'){
 			sh '''
-				echo 'test'
+				python3 appTest.py
 			'''
+				}
 			}
 		}
 		stage("Push"){
