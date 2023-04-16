@@ -5,7 +5,7 @@ class FlaskTest(unittest.TestCase):
 
     # Check if the app is running and returning 200 status code
     def test_index(self):
-        tester = app.test_client(self)
+        tester = app.app.test_client(self)
         response = tester.get("/")
         statuscode = response.status_code
         self.assertEqual(statuscode, 200)
