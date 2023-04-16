@@ -8,6 +8,7 @@ client = MongoClient('mongodb+srv://Doovid:CUInSH79r8SB5RyF@cluster0.ctoe402.mon
 db = client['mydatabase']
 purchases = db['purchases']
 catalog = db['catalog']
+app.testing = True
 
 @app.route('/', methods=['GET','POST'])
 def Catalog():
