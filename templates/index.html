@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shop</title>
+    <style>
+        .todo {
+            padding: 20px;
+            margin: 10px;
+            background-color: #eee;
+        }
+    </style>
+</head>
+<body>
+    <center>
+    <h1>Shop</h1>
+    <form method="POST">
+    <hr>
+    <div class="content">
+    
+        <p>
+            <b><label for="content">Catalog</label></b>
+        </p>
+        <p>
+            <form method="POST" action="/">
+            <table border="1" name="table1">    
+            <tr>
+            <td>Item</td>
+            <td>Price</td>
+            <td>Buy?</td>
+            <td>Update Price</td> 
+            <td>Delete Product</td>
+            </tr>
+            <tr>
+            {% for item in items %}      
+            <td>{{ item["item"] }} </td>
+            <td>{{ item["price"] }}</td>
+            <td><input type="checkbox" name="product_{{ item['_id'] }}"></td> 
+            </form> 
+            <td>
+                    <form action="/update_price/{{ item['_id'] }}" method="POST">
+                        <input type="number" name="update_price" value="{{ item['price'] }}">
+                        <button type="submit">Update</button>
+                    </form>
+            </td>
+            <td>
+                <form action="/delete_product/" method="POST">
+                    <input type="checkbox" name="product_{{ item['_id'] }}">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>    
+            </tr>
+            {% endfor %}
+            </table>
+        </p>
+        <p>
+        
+        <button type="submit">Buy Now!</button>
+        </form>
+        </p>
+        <br><br>
+        <h5>Insert New Product</h5>
+        <form action="/insert_product/" method="POST">
+            <h5>Name</h5><input type="text" name="insert_product_name">
+            <h5>Price</h5><input type="number" name="insert_product_price">
+            <button type="submit">Insert</button>
+        </form>
+    <hr>
+    <h3>place for purchased items table</h3>
+    <table border="1" name="table2">    
+        <tr>
+            <td>Item</td>
+            <td>Price</td>
+            <td>Date</td>
+            </tr>
+            {% for item in purchased %}      
+            <td>{{ item["item"] }} </td>
+            <td>{{ item["price"] }}</td>
+            <td>{{ item["date"] }}</td>
+        </tr>
+            {% endfor %}
+        </table>
+
+    </div>
+</center>
+</body>
+</html>

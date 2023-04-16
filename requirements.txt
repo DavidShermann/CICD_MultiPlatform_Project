@@ -1,0 +1,7 @@
+
+requests
+countryinfo
+gunicorn
+flask
+geopy
+pymongo
