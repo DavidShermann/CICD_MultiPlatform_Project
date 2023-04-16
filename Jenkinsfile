@@ -23,7 +23,7 @@ pipeline {
 			steps{	
 				dir('/home/ubuntu/jenkins/workspace/MixProjectDavid'){
 			sh '''
-				python3 -m unittest appTest.py 
+				docker exec shop python3 -m unittest appTest.py 
 			'''
 				}
 			}
@@ -48,12 +48,14 @@ pipeline {
 		 	}
 		 }
 	}
-//	post{
-//		success{
-	//		        build job: 'KubernetesFile', parameters: [
-  //                  string(name: 'version', value: '$VERSION'),
-      //          ]
-	//	}
-	//}
+	post{
+		failure{
+				sh'''
+					docker rm -f shop
+					docker rmi -f doovid1000/shopify:$VERSION
+					docker rmi -f shopify
+		 		'''
+		}
+	}
 }
 
