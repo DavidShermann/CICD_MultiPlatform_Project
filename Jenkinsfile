@@ -23,7 +23,7 @@ pipeline {
 			steps{	
 				dir('/home/ubuntu/jenkins/workspace/MixProjectDavid'){
 			sh '''
-				python3 appTest.py
+				python3 appTest.py 
 			'''
 				}
 			}
