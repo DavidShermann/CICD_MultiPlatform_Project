@@ -50,7 +50,7 @@ pipeline {
 //		success{
 	//		        build job: 'KubernetesFile', parameters: [
   //                  string(name: 'version', value: '$VERSION'),
-                ]
+      //          ]
 	//	}
 	//}
 }
