@@ -11,13 +11,13 @@ pipeline {
 	stages {
 		stage("Build"){
 			steps{
-//				dir('/home/ubuntu/jenkins/workspace/MixProject'){
-//				sh '''
-//					docker build . -t shopify --rm
-//					docker run -d --name shop -p 5000:5000 shopify
-//				'''
+				dir('/home/ubuntu/jenkins/workspace/MixProject'){
+				sh '''
+					docker build . -t shopify --rm
+					docker run -d --name shop -p 5000:5000 shopify
+				'''
 					sh 'echo build 1'
-			//	}
+				}
 			}
 		}
 		stage("Test"){
@@ -27,26 +27,26 @@ pipeline {
 			'''
 			}
 		}
-//		stage("Push"){
-//			steps{
-//				sh ''' 
-//					echo "$MY_USR_PSW" | docker login --username $MY_USR_USR --password-stdin
-//					docker tag weather-app doovid1000/weather-app:$VERSION
-//					docker push doovid1000/weather-app:$VERSION
-//					docker logout
-//				'''
-//			}
-//		}
-//		stage("Clean"){
-//		 	steps{
-//		 		sh'''
-//					docker rm -f weather
-//					docker rmi -f doovid1000/weather-app:$VERSION
-//					docker rmi -f weather-app
-//		 		'''
-//		 	}
-//		 }
-//	}
+		stage("Push"){
+			steps{
+				sh ''' 
+					echo "$MY_USR_PSW" | docker login --username $MY_USR_USR --password-stdin
+					docker tag weather-app doovid1000/shopify:$VERSION
+					docker push doovid1000/shopify:$VERSION
+					docker logout
+				'''
+			}
+		}
+		stage("Clean"){
+		 	steps{
+		 		sh'''
+					docker rm -f shop
+					docker rmi -f doovid1000/shopify:$VERSION
+					docker rmi -f shopify
+		 		'''
+		 	}
+		 }
+	}
 //	post{
 //		success{
 	//		        build job: 'KubernetesFile', parameters: [
