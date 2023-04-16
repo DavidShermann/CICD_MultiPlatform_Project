@@ -33,7 +33,7 @@ pipeline {
 					echo "$MY_USR_PSW" | docker login --username $MY_USR_USR --password-stdin
 					docker tag shopify doovid1000/shopify:$VERSION
 					docker push doovid1000/shopify:$VERSION
-					docker logout
+					docker logout 
 				'''
 			}
 		}
