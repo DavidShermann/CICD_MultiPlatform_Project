@@ -1,0 +1,10 @@
+*
+!app.py
+!Jenkinsfile
+!requirements.txt
+!templates
+!templates/index.html
+!Dockerfile
+!appTest.py
+!.gitignore
+
