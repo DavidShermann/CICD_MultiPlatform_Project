@@ -12,9 +12,12 @@ pipeline {
 		stage("Build"){
 			steps{
 				dir('/home/ubuntu/jenkins/workspace/MixProjectDavid'){
+				// sh '''
+				// 	docker build . -t shopify --rm
+				// 	docker run -d --name shop -p 5000:5000 shopify
+				// '''
 				sh '''
-					docker build . -t shopify --rm
-					docker run -d --name shop -p 5000:5000 shopify
+					docker run -d --rm --name shop -p 5000:5000 -it $(docker build . -t shopify --rm)
 				'''
 				}
 			}
