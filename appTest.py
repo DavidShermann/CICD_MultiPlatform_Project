@@ -19,8 +19,8 @@ class TestCatalog(unittest.TestCase):
         catalog.insert_many(self.catalog_data)
         purchases.insert_many(self.purchases_data)
     def test_delete(self):    
-        catalog.delete_many(self.catalog_data)
-        purchases.delete_many(self.purchases_data)
+        catalog.delete_many({})
+        purchases.delete_many({})
 
 if __name__ == '__main__':
     unittest.main()        
