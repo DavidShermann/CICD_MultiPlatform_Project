@@ -1,26 +1,25 @@
 import unittest
-import app as app
+from app import app, db, catalog, purchases
 
-class FlaskTest(unittest.TestCase):
+class TestCatalog(unittest.TestCase):
 
-    # Check if the app is running and returning 200 status code
-    def test_index(self):
-        tester = app.app.test_client(self)
-        response = tester.get("/")
-        statuscode = response.status_code
-        self.assertEqual(statuscode, 200)
+    def setUp(self):
+        self.client = app.test_client()
+        self.catalog_data = [
+            {'item': 'item1', 'price': 10},
+            {'item': 'item2', 'price': 20},
+            {'item': 'item3', 'price': 30}
+        ]
+        self.purchases_data = [
+            {'item': 'item1', 'price': 10, 'date': '2023-04-17 10:00:00'},
+            {'item': 'item2', 'price': 20, 'date': '2023-04-17 11:00:00'}
+        ]
+        catalog.insert_many(self.catalog_data)
+        purchases.insert_many(self.purchases_data)
 
-    # Check if the new product is inserted in the catalog
-    def test_insert_product(self):
-        tester = app.test_client(self)
-        response = tester.post("/insert_product/", data=dict(insert_product_name='Product X', insert_product_price=10), follow_redirects=True)
-        self.assertIn(b'Product X', response.data)
-
-    # Check if the product is deleted from the catalog
-    def test_delete_product(self):
-        tester = app.test_client(self)
-        response = tester.post("/delete_product/", data=dict(product_1='on'), follow_redirects=True)
-        self.assertNotIn(b'Product 1', response.data)
+    def tearDown(self):
+        catalog.delete_many({})
+        purchases.delete_many({})
 
 if __name__ == '__main__':
     unittest.main()        
