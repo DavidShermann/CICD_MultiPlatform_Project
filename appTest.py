@@ -14,12 +14,13 @@ class TestCatalog(unittest.TestCase):
             {'item': 'item1', 'price': 10, 'date': '2023-04-17 10:00:00'},
             {'item': 'item2', 'price': 20, 'date': '2023-04-17 11:00:00'}
         ]
+
+    def test_insert(self):
         catalog.insert_many(self.catalog_data)
         purchases.insert_many(self.purchases_data)
-
-    def tearDown(self):
-        catalog.delete_many({})
-        purchases.delete_many({})
+    def test_delete(self):    
+        catalog.delete_many(self.catalog_data)
+        purchases.delete_many(self.purchases_data)
 
 if __name__ == '__main__':
     unittest.main()        
