@@ -58,6 +58,14 @@ pipeline {
 					curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.17/2023-03-17/bin/linux/amd64/kubectl
 					chmod +x ./kubectl
 					mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
+					'''
+				sh '''	
+					curl "https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip" -o "awscliv2.zip"
+					unzip -u awscliv2.zip
+					sudo ./aws/install
+					aws --version
+					'''
+				sh '''	
 					aws eks --region us-east-1 update-kubeconfig --name my-cluster
 					kubectl delete -f kube.yaml
 					kubectl apply -f kube.yaml
