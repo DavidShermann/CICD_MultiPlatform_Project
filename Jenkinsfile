@@ -81,7 +81,7 @@ pipeline {
 					kubectl apply -f kube.yaml
 					kubectl get deployments
 					kubectl get svc
-					kubectl describe deployments
+					kubectl describe pods
 					echo gg
 				'''
 					}
