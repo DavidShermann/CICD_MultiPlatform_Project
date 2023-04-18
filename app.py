@@ -6,11 +6,11 @@ import os
 import logging
 
 mongoaccess = os.environ["MONGO_PASSWORD"]
-file_path="logging/app.log"
-logging.basicConfig(filename=file_path)
+#file_path="logging/app.log"
+#logging.basicConfig(filename=file_path)
 
 app = Flask(__name__)
-logger = logging.getLogger('app')
+#logger = logging.getLogger('app')
 client = MongoClient(f'mongodb+srv://Doovid:{mongoaccess}@cluster0.ctoe402.mongodb.net/?retryWrites=true&w=majority')
 db = client['mydatabase']
 purchases = db['purchases']
