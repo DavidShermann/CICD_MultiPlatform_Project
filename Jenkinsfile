@@ -78,6 +78,7 @@ pipeline {
 				   '''	
 				sh '''	
 					aws eks update-kubeconfig --region us-east-1 --name my-cluster
+					kubectl delete -f kube.yaml
 					kubectl apply -f kube.yaml
 					kubectl get pods
 					kubectl get svc
