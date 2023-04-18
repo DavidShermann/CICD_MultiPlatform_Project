@@ -74,7 +74,7 @@ pipeline {
 					aws sts get-caller-identity
 					'''	
 				sh '''
-					kubectl set image deployments/app webapp=doovid1000/shopify:${VERSION} -o yaml --dry-run=client | kubectl apply -f -
+					kubectl set image deployments/shopapp webapp=doovid1000/shopify:${VERSION} -o yaml --dry-run=client | kubectl apply -f -
 					aws eks update-kubeconfig --region us-east-1 --name my-cluster
 					kubectl delete -f kube.yaml
 					kubectl get pods
