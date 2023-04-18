@@ -8,6 +8,7 @@ pipeline {
 		 MY_USR = credentials('dockerlogin')
 		 AWS_ACCESS_KEY = credentials('AWS_David_ACCESS_KEY')
 		 AWS_SECRET_ACCESS_KEY = credentials('AWS_David_SECRET_ACCESS_KEY')
+		 MONGO_ACCESS = credentials('David_MONGO_ACCESS')
 	}
 
 	stages {
@@ -71,7 +72,6 @@ pipeline {
 					aws --version
 					aws configure set aws_access_key_id $AWS_ACCESS_KEY
 					aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
-					aws sts get-caller-identity
 					'''	
 				sh '''
 					kubectl set image deployments/shopapp shopify=doovid1000/shopify:${VERSION} -o yaml --dry-run=client | kubectl apply -f -

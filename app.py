@@ -2,9 +2,16 @@ from flask import Flask, request, jsonify,render_template,redirect,url_for
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 import datetime
+import os
+import logging
+
+mongoaccess = os.environ("MONGO_ACCESS")
+file_path="logging/app.log"
+logging.basicConfig(filename=file_path)
 
 app = Flask(__name__)
-client = MongoClient('mongodb+srv://Doovid:CUInSH79r8SB5RyF@cluster0.ctoe402.mongodb.net/?retryWrites=true&w=majority')
+logger = logging.getLogger('app')
+client = MongoClient(f'mongodb+srv://Doovid:{mongoaccess}@cluster0.ctoe402.mongodb.net/?retryWrites=true&w=majority')
 db = client['mydatabase']
 purchases = db['purchases']
 catalog = db['catalog']
