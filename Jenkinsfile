@@ -72,15 +72,13 @@ pipeline {
 					aws configure set aws_access_key_id $AWS_ACCESS_KEY
 					aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
 					aws sts get-caller-identity
-					'''
+					'''	
 				sh '''
-					kubectl create configmap my-config --from-literal=image-tag=$VERSION -o yaml --dry-run=client | kubectl apply -f -
-				   '''	
-				sh '''	
+					kubectl set image deployments/app webapp=doovid1000/shopify:${VERSION} -o yaml --dry-run=client | kubectl apply -f -
 					aws eks update-kubeconfig --region us-east-1 --name my-cluster
 					kubectl delete -f kube.yaml
-					kubectl apply -f kube.yaml
 					kubectl get pods
+					kubectl get deployments
 					kubectl get svc
 					echo gg
 				'''
