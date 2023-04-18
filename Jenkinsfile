@@ -75,7 +75,10 @@ pipeline {
 					'''
 				sh '''	
 					aws eks update-kubeconfig --region us-east-1 --name my-cluster
-					kubectl get nodes
+					kubectl apply -f kube.yaml
+					kubectl get deployments
+					kubectl get svc
+					echo gg
 				'''
 					}
 			}
