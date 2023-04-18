@@ -71,9 +71,10 @@ pipeline {
 					aws --version
 					aws configure set aws_access_key_id $AWS_ACCESS_KEY
 					aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+					aws sts get-caller-identity
 					'''
 				sh '''	
-					aws eks --region us-east-1 update-kubeconfig --name my-cluster
+					aws eks update-kubeconfig --region us-east-1 --name my-cluster
 					kubectl get nodes
 				'''
 					}
