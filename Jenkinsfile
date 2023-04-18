@@ -73,11 +73,15 @@ pipeline {
 					aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
 					aws sts get-caller-identity
 					'''
+				sh '''
+					kubectl create configmap my-config --from-literal=image-tag=$VERSION
+				   '''	
 				sh '''	
 					aws eks update-kubeconfig --region us-east-1 --name my-cluster
 					kubectl apply -f kube.yaml
 					kubectl get deployments
 					kubectl get svc
+					kubectl describe deployments
 					echo gg
 				'''
 					}
