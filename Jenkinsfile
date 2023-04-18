@@ -73,10 +73,8 @@ pipeline {
 					aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
 					'''
 				sh '''	
-
 					aws eks --region us-east-1 update-kubeconfig --name my-cluster
-					kubectl delete -f kube.yaml
-					kubectl apply -f kube.yaml
+					kubectl get nodes
 				'''
 					}
 			}
