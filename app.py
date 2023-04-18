@@ -5,7 +5,7 @@ import datetime
 import os
 import logging
 
-mongoaccess = os.environ("MONGO_PASSWORD")
+mongoaccess = os.environ["MONGO_PASSWORD"]
 file_path="logging/app.log"
 logging.basicConfig(filename=file_path)
 
