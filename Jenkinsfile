@@ -76,7 +76,7 @@ pipeline {
 				sh '''
 					kubectl set image deployments/shopapp shopify=doovid1000/shopify:${VERSION} -o yaml --dry-run=client | kubectl apply -f -
 					aws eks update-kubeconfig --region us-east-1 --name my-cluster
-					kubectl delete -f kube.yaml 
+					kubectl delete -f kube.yaml
 					kubectl get pods
 					kubectl get deployments
 					kubectl get svc
