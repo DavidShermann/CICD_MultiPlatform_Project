@@ -54,23 +54,21 @@ pipeline {
 	    stage("Deploy"){
 			steps{
 				dir('/home/ubuntu/jenkins/workspace/MixProjectDavid'){
-                    withKubeConfig(
-					[serverUrl: 'https://55911BA85A2B111147EA93B63BF45ACE.gr7.us-east-1.eks.amazonaws.com',
-					contextName: 'arn:aws:eks:us-east-1:402440999262:cluster/my-cluster',
-                    clusterName: 'my-cluster',
-                    ]) {
-      				sh 'kubectl get nodes'
-				// sh '''
-				// 	kubectl delete -f kube.yaml
-				// 	kubectl apply -f kube.yaml
-				// '''
+				sh '''
+					curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.17/2023-03-17/bin/linux/amd64/kubectl
+					chmod +x ./kubectl
+					mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
+					aws eks --region us-east-1 update-kubeconfig --name my-cluster
+					kubectl delete -f kube.yaml
+					kubectl apply -f kube.yaml
+				'''
 					}
 			}
 		} 
 	}
 	}
 	post{
-		failure{
+		always{
 				sh'''
 					docker rm -f shop
 					docker rmi -f doovid1000/shopify:$VERSION
