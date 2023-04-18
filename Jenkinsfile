@@ -74,7 +74,7 @@ pipeline {
 					aws sts get-caller-identity
 					'''
 				sh '''
-					kubectl create configmap my-config --from-literal=image-tag=$VERSION
+					kubectl apply configmap my-config --from-literal=image-tag=$VERSION | kubectl apply -f -
 				   '''	
 				sh '''	
 					aws eks update-kubeconfig --region us-east-1 --name my-cluster
