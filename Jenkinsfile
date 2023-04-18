@@ -66,7 +66,6 @@ pipeline {
 			}
 		} 
 	}
-	}
 	post{
 		always{
 				sh'''
