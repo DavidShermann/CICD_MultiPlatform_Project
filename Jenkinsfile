@@ -27,7 +27,7 @@ pipeline {
 			steps{	
 				dir('/home/ubuntu/jenkins/workspace/MixProjectDavid'){
 			sh '''
-			    docker exec shop python3 appTest.py
+			    docker run --rm -e MONGO_PASSWORD=${MONGO_ACCESS} shopify python3 -m unittest test_app.py
 				echo 'testing' 
 			'''
 				}
