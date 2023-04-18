@@ -7,4 +7,5 @@
 !Dockerfile
 !appTest.py
 !.gitignore
+!*.yaml
 
