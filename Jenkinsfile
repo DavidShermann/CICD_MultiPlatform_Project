@@ -59,13 +59,17 @@ pipeline {
 					chmod +x ./kubectl
 					mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
 					'''
-				sh '''	
+				sh '''
+					sudo apt-get install unzip -y	
 					curl "https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip" -o "awscliv2.zip"
 					unzip -u awscliv2.zip
 					sudo ./aws/install
 					aws --version
+					aws configure set aws_access_key_id $AWS_ACCESS_KEY
+					aws configure set aws_secret_access_key_id $AWS_SECRET_ACCESS_KEY
 					'''
 				sh '''	
+
 					aws eks --region us-east-1 update-kubeconfig --name my-cluster
 					kubectl delete -f kube.yaml
 					kubectl apply -f kube.yaml
