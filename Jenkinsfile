@@ -63,7 +63,7 @@ pipeline {
 					sudo apt-get install unzip -y	
 					curl "https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip" -o "awscliv2.zip"
 					unzip -u awscliv2.zip
-					sudo ./aws/install
+					sudo ./aws/install --update
 					aws --version
 					aws configure set aws_access_key_id $AWS_ACCESS_KEY
 					aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
