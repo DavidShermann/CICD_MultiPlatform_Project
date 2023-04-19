@@ -70,7 +70,8 @@ pipeline {
 				'''
 			}
 					}
-				}
+			
+				
 				stage("Push arm64 image")
 				{
 					agent{
