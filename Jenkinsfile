@@ -21,7 +21,7 @@ pipeline {
 				// 	docker run --rm -d --name shop -p 5000:5000 shopify_arm64
 				// '''
 				sh '''
-					docker build -f Dockerfile_amd . --platform linux/amd64 -t shopify_amd64
+					docker build -f Dockerfile_arm . --platform linux/arm64 -t shopify_arm64
 				'''
 				
 				}
