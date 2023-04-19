@@ -68,10 +68,9 @@ pipeline {
 					docker push doovid1000/shopify_amd64:$VERSION
 					docker logout 
 				'''
-			}
-					}
+						}
+				}
 			
-				
 				stage("Push arm64 image")
 				{
 					agent{
@@ -86,6 +85,7 @@ pipeline {
 				'''
 						}
 				}
+		}
 		}
 		stage("Clean"){
 			parallel{
