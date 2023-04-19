@@ -16,10 +16,8 @@ pipeline {
 			steps{
 				dir('/home/ubuntu/jenkins/workspace/MixProjectDavid'){
 				sh '''
-					docker pull amd64/python:3.10-slim-buster
-					docker buildx build . --platform linux/amd64 -t shopify_amd64 --load
-					docker rmi python:3.10-slim-buster
-					docker buildx build . --platform linux/arm64 -t shopify_arm64 --load
+					docker buildx build -f Dockerfile_amd --platform linux/amd64 -t shopify_amd64 --load
+					docker buildx build -f Dockerfile_arm --platform linux/arm64 -t shopify_arm64 --load
 					docker run --rm -d --name shop -p 5000:5000 shopify_arm64
 				'''
 				
