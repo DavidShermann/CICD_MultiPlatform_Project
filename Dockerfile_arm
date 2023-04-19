@@ -4,9 +4,7 @@ WORKDIR /project
 
 COPY . .
 
-RUN python3 -m pip install --upgrade pip -y 
-
-RUN python3 -m pip install -r requirements.txt -y
+RUN python3 -m pip install -r requirements.txt
 
 EXPOSE 5000
 
