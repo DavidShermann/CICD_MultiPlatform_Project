@@ -4,7 +4,7 @@ WORKDIR /project
 
 COPY . .
 
-RUN pip install -r requirements.txt
+RUN python -m pip install -r requirements.txt
 
 EXPOSE 5000
 
