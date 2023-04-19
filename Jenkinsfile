@@ -94,6 +94,9 @@ pipeline {
 					agent{
 						label "or_agent"
 					}
+					steps{
+						sh 'echo cleaning'
+					}
 					post{
 						always{
 					sh'''
@@ -107,6 +110,9 @@ pipeline {
 				{
 					agent{
 						label "Bond"
+					}
+					steps{
+						sh 'echo cleaning'
 					}
 					post{
 						always{
