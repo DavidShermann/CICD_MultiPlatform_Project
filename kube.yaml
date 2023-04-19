@@ -17,6 +17,9 @@ spec:
         image: doovid1000/shopify_arm64:1.0.80
         ports:
         - containerPort: 5000
+        env:
+        - name: MONGO_PASSWORD
+          value: "mongotemp"
 ---
 apiVersion: v1
 kind: Service
