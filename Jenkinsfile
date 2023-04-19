@@ -22,7 +22,7 @@ pipeline {
 					steps{
 						dir('/home/ubuntu/workspace/MixProjectDavid'){
 							sh '''
-							docker buildx build -f Dockerfile_amd . --platform linux/amd64 -t shopify_amd64 --load
+							sudo docker buildx build -f Dockerfile_amd . --platform linux/amd64 -t shopify_amd64 --load
 							'''	
 						}
 					}
