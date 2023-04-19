@@ -120,7 +120,6 @@ pipeline {
 						always{
 						sh'''
 					docker rm -f shop
-					
 					docker rmi -f doovid1000/shopify_arm64:$VERSION
 					docker rmi -f shopify_arm64
 		 		'''
