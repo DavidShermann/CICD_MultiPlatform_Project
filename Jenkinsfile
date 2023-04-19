@@ -65,10 +65,10 @@ pipeline {
 					}
 					steps{
 							sh ''' 
-					echo "$MY_USR_PSW" | docker login --username $MY_USR_USR --password-stdin
-					docker tag shopify_amd64 doovid1000/shopify_amd64:$VERSION
-					docker push doovid1000/shopify_amd64:$VERSION
-					docker logout 
+					echo "$MY_USR_PSW" | sudo docker login --username $MY_USR_USR --password-stdin
+					sudo docker tag shopify_amd64 doovid1000/shopify_amd64:$VERSION
+					sudo docker push doovid1000/shopify_amd64:$VERSION
+					sudo docker logout 
 				'''
 						}
 				}
@@ -102,8 +102,8 @@ pipeline {
 					post{
 						always{
 					sh'''
-					docker rmi -f doovid1000/shopify_amd64:$VERSION
-					docker rmi -f shopify_amd64
+					sudo docker rmi -f doovid1000/shopify_amd64:$VERSION
+					sudo docker rmi -f shopify_amd64
 		 		'''
 						}
 					}
