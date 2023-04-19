@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: shopify
-        image: doovid1000/shopify_arm64:latest
+        image: doovid1000/shopify_arm64:1.0.80
         ports:
         - containerPort: 5000
 ---
