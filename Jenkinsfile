@@ -49,7 +49,7 @@ pipeline {
 				dir('/home/ubuntu/jenkins/workspace/MixProjectDavid'){
 			sh '''
 			    docker run --rm -e MONGO_PASSWORD=${MONGO_ACCESS} shopify_arm64 python3 -m unittest appTest.py
-				echo 'testing' 
+				echo 'testing ' 
 			'''
 				}
 			}
