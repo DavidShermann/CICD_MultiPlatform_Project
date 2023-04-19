@@ -16,8 +16,9 @@ pipeline {
 			steps{
 				dir('/home/ubuntu/jenkins/workspace/MixProjectDavid'){
 				sh '''
-					docker build . -t shopify --rm
-					docker run -d --name shop -p 5000:5000 shopify
+					docker buildx build . --platform linux/amd64 -t shopify_amd64 --load
+					docker buildx build . --platform linux/arm64 -t shopify_arm64 --load
+					docker run --rm -d --name shop -p 5000:5000 shopify_arm64
 				'''
 				
 				}
@@ -37,8 +38,10 @@ pipeline {
 			steps{
 				sh ''' 
 					echo "$MY_USR_PSW" | docker login --username $MY_USR_USR --password-stdin
-					docker tag shopify doovid1000/shopify:$VERSION
-					docker push doovid1000/shopify:$VERSION
+					docker tag shopify_amd64 doovid1000/shopify_amd64:$VERSION
+					docker tag shopify_arm64 doovid1000/shopify_arm64:$VERSION
+					docker push doovid1000/shopify_arm64:$VERSION
+					docker push doovid1000/shopify_amd64:$VERSION
 					docker logout 
 				'''
 			}
@@ -47,7 +50,8 @@ pipeline {
 		 	steps{
 		 		sh'''
 					docker rm -f shop
-					docker rmi -f doovid1000/shopify:$VERSION
+					docker rmi -f doovid1000/shopify_amd64:$VERSION
+					docker rmi -f doovid1000/shopify_arm64:$VERSION
 					docker rmi -f shopify
 		 		'''
 		 	}
@@ -75,7 +79,7 @@ pipeline {
 					'''	
 				sh '''
 					aws eks update-kubeconfig --region us-east-1 --name my-cluster
-					kubectl set image deployments/shopapp shopify=doovid1000/shopify:${VERSION} -o yaml --dry-run=client | kubectl apply -f -
+					kubectl set image deployments/shopapp shopify=doovid1000/shopify_arm64:${VERSION} -o yaml --dry-run=client | kubectl apply -f -
 					kubectl delete -f kube.yaml 
 					kubectl get pods
 					kubectl get deployments
@@ -90,7 +94,8 @@ pipeline {
 		always{
 				sh'''
 					docker rm -f shop
-					docker rmi -f doovid1000/shopify:$VERSION
+					docker rmi -f doovid1000/shopify_amd64:$VERSION
+					docker rmi -f doovid1000/shopify_arm64:$VERSION
 					docker rmi -f shopify
 		 		'''
 		}
