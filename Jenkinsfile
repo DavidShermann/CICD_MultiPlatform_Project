@@ -114,7 +114,7 @@ pipeline {
 						label "Bond"
 					}
 					steps{
-						sh 'echo cleaning'
+						sh 'echo cleaningg'
 					}
 					post{
 						always{
