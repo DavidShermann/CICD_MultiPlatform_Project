@@ -36,7 +36,7 @@ pipeline {
 						dir('/home/ubuntu/jenkins/workspace/MixProjectDavid'){
 						sh '''
 							docker buildx build -f Dockerfile_arm . --platform linux/arm64 -t shopify_arm64 --load
-							docker run --rm -d --name shop -p 5000:5000 shopify_arm64
+							docker run --rm -e MONGO_PASSWORD=${MONGO_ACCESS} -d --name shop -p 5000:5000 shopify_arm64
 							'''	
 						}
 					}
@@ -154,7 +154,7 @@ pipeline {
 					'''	
 				sh '''
 					aws eks update-kubeconfig --region us-east-1 --name my-cluster
-					kubectl apply -f kube.yaml
+					kubectl apply -f kube.yaml --env=MONGO_PASSWORD=${MONGO_ACCESS}
 					kubectl set image deployments/shopapp shopify=doovid1000/shopify_arm64:${VERSION} -o yaml --dry-run=client | kubectl apply -f -
 					kubectl get pods 
 					kubectl get deployments
