@@ -1,8 +1,8 @@
 pipeline {
-	agent {
-		label "Bond"
-
-	}
+	 agent none
+	 options {
+        parallelsAlwaysFailFast()
+    }
 	environment {
 		 VERSION = "1.0.${env.BUILD_NUMBER}"
 		 MY_USR = credentials('dockerlogin')
@@ -44,7 +44,9 @@ pipeline {
 			}
 		}
 		stage("Test"){
-			
+			agent {
+				label "Bond"
+			}
 			steps{	
 				dir('/home/ubuntu/jenkins/workspace/MixProjectDavid'){
 			sh '''
@@ -128,6 +130,9 @@ pipeline {
 			}
 		 }
 	    stage("Deploy"){
+			agent {
+				label "Bond"
+			}
 			steps{
 				dir('/home/ubuntu/jenkins/workspace/MixProjectDavid'){
 				sh '''
