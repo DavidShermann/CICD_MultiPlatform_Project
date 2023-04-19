@@ -154,9 +154,9 @@ pipeline {
 					'''	
 				sh '''
 					aws eks update-kubeconfig --region us-east-1 --name my-cluster
-					sed -e 's|mongotemp|${MONGO_ACCESS}|g' kube.yaml | kubectl apply -f -
+					kubectl apply -f kube.yaml
+					kubectl set env deployment/shopapp MONGO_PASSWORD=${MONGO_ACCESS}
 					kubectl set image deployments/shopapp shopify=doovid1000/shopify_arm64:${VERSION} -o yaml --dry-run=client | kubectl apply -f -
-					cat kube.yaml
 					kubectl get pods 
 					kubectl get deployments
 					kubectl get svc
