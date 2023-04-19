@@ -13,51 +13,112 @@ pipeline {
 
 	stages {
 		stage("Build"){
-			steps{
-				dir('/home/ubuntu/jenkins/workspace/MixProjectDavid'){
-				// sh '''
-				// 	docker buildx build -f Dockerfile_amd . --platform linux/amd64 -t shopify_amd64 --load
-				// 	docker buildx build -f Dockerfile_arm . --platform linux/arm64 -t shopify_arm64 --load
-				// 	docker run --rm -d --name shop -p 5000:5000 shopify_arm64
-				// '''
-				sh '''
-					docker build -f Dockerfile_arm . --platform linux/arm64 -t shopify_arm64
-				'''
-				
+			parallel {
+				stage("Build on amd64")
+				{
+					agent {
+						label "or_agent"
+					}
+					steps{
+						dir('/home/ubuntu/workspace/MixProjectDavid'){
+							sh '''
+							docker buildx build -f Dockerfile_amd . --platform linux/amd64 -t shopify_amd64 --load
+							'''	
+						}
+					}
+				}
+				stage("Build on arm64")
+				{
+					agent{
+						label "Bond"
+					}
+					steps{
+						dir('/home/ubuntu/jenkins/workspace/MixProjectDavid'){
+						sh '''
+							docker buildx build -f Dockerfile_arm . --platform linux/arm64 -t shopify_arm64 --load
+							docker run --rm -d --name shop -p 5000:5000 shopify_arm64
+							'''	
+						}
+					}
 				}
 			}
 		}
 		stage("Test"){
+			
 			steps{	
 				dir('/home/ubuntu/jenkins/workspace/MixProjectDavid'){
 			sh '''
-			    docker run --rm -e MONGO_PASSWORD=${MONGO_ACCESS} shopify python3 -m unittest appTest.py
+			    docker run --rm -e MONGO_PASSWORD=${MONGO_ACCESS} shopify_arm64 python3 -m unittest appTest.py
 				echo 'testing' 
 			'''
 				}
 			}
 		}
 		stage("Push"){
-			steps{
-				sh ''' 
+			parallel {
+				stage("Push amd64 image")
+				{
+					agent {
+						label "or_agent"
+					}
+					steps{
+							sh ''' 
 					echo "$MY_USR_PSW" | docker login --username $MY_USR_USR --password-stdin
 					docker tag shopify_amd64 doovid1000/shopify_amd64:$VERSION
-					docker tag shopify_arm64 doovid1000/shopify_arm64:$VERSION
-					docker push doovid1000/shopify_arm64:$VERSION
 					docker push doovid1000/shopify_amd64:$VERSION
 					docker logout 
 				'''
 			}
+					}
+				}
+				stage("Push arm64 image")
+				{
+					agent{
+						label "Bond"
+					}
+					steps{
+						sh ''' 
+					echo "$MY_USR_PSW" | docker login --username $MY_USR_USR --password-stdin
+					docker tag shopify_arm64 doovid1000/shopify_arm64:$VERSION
+					docker push doovid1000/shopify_arm64:$VERSION
+					docker logout 
+				'''
+						}
+				}
 		}
 		stage("Clean"){
-		 	steps{
-		 		sh'''
-					docker rm -f shop
+			parallel{
+				stage("Clean amd64")
+				{
+					agent{
+						label "or_agent"
+					}
+					post{
+						always{
+					sh'''
 					docker rmi -f doovid1000/shopify_amd64:$VERSION
-					docker rmi -f doovid1000/shopify_arm64:$VERSION
-					docker rmi -f shopify
+					docker rmi -f shopify_amd64
 		 		'''
-		 	}
+						}
+					}
+				}
+				stage("clean arm64")
+				{
+					agent{
+						label "Bond"
+					}
+					post{
+						always{
+						sh'''
+					docker rm -f shop
+					
+					docker rmi -f doovid1000/shopify_arm64:$VERSION
+					docker rmi -f shopify_arm64
+		 		'''
+						}
+					}
+				}
+			}
 		 }
 	    stage("Deploy"){
 			steps{
@@ -93,15 +154,15 @@ pipeline {
 			}
 		} 
 	}
-	post{
-		always{
-				sh'''
-					docker rm -f shop
-					docker rmi -f doovid1000/shopify_amd64:$VERSION
-					docker rmi -f doovid1000/shopify_arm64:$VERSION
-					docker rmi -f shopify
-		 		'''
-		}
-	}
+	// post{
+	// 	always{
+	// 			sh'''
+	// 				docker rm -f shop
+	// 				docker rmi -f doovid1000/shopify_amd64:$VERSION
+	// 				docker rmi -f doovid1000/shopify_arm64:$VERSION
+	// 				docker rmi -f shopify
+	// 	 		'''
+	// 	}
+	// }
 }
 
